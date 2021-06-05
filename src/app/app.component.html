@@ -1,0 +1,77 @@
+<div class="alert alert-primary" role="alert">
+  Pagination
+</div>
+
+<div class="container" *ngIf="showPagination">
+  <div class="row">
+    <div class="col">
+      <ul *ngIf="listData" class="list-group">
+        <li *ngFor="let info of listData; let i = index; let last = last; let l = count" class="list-group-item">
+          <h5>{{info.id}} - {{ info.title }}</h5>
+          {{ info.product }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col">
+      <p class="text-center">
+        <span class="fw-bold">{{accumulatedItems}}</span> itens of
+        <span class="fw-bold">{{totalItens}}</span> itens
+      </p>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col">
+      <nav *ngIf="listData" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li *ngIf="previousPosition >= 0" (click)="updatePage(previousPosition)" class="page-item">
+            <button type="button" class="btn btn-secondary">
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          <li *ngIf="previousPosition == -1" class="page-item disabled">
+            <button type="button" class="btn btn-secondary" disabled>
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+
+          <li *ngFor="let item of pages; let i = index" class="page-item">
+            <a class="page-link current-page" href="javascript:void(0)" (click)="updatePage(item)"
+              *ngIf="isCurrentPage(item)">
+              {{item + 1}}
+            </a>
+            <a class="page-link" href="javascript:void(0)" (click)="updatePage(item)" *ngIf="!isCurrentPage(item)">
+              {{item + 1}}
+            </a>
+          </li>
+
+          <li *ngIf="nextPage >= 0" (click)="updatePage(nextPage)" class="page-item">
+            <button type="button" class="btn btn-secondary">
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+          <li *ngIf="nextPage == -1" class="page-item">
+            <button type="button" class="btn btn-secondary" disabled>
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<ng-template [ngIf]="!showPagination">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-danger" role="alert">
+          No pagination and no content!
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
